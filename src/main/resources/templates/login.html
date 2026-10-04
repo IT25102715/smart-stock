@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Sign in')}"></head>
+<body>
+
+<div class="auth">
+    <div class="auth__card">
+        <div class="auth__head">
+            <span class="sidebar__mark"><i data-lucide="layers"></i></span>
+            <h1 class="auth__title">Sign in to SmartStock</h1>
+            <p class="auth__sub">Enter your credentials to open the portal.</p>
+        </div>
+
+        <div class="auth__error" th:if="${error}" th:text="${error}">Invalid username or password.</div>
+
+        <form method="post" action="/login" class="auth__form">
+            <div class="field">
+                <label class="field__label" for="username">Username</label>
+                <input id="username" name="username" type="text" class="input" autocomplete="username" required autofocus>
+            </div>
+
+            <div class="field">
+                <label class="field__label" for="password">Password</label>
+                <input id="password" name="password" type="password" class="input" autocomplete="current-password" required>
+            </div>
+
+            <button type="submit" class="sbtn sbtn--primary sbtn--block">Sign in</button>
+        </form>
+
+        <p class="auth__hint">
+            Default admin: <strong>admin</strong> / <strong>admin123</strong><br>
+            Or sign in with any account created in User Management.
+        </p>
+    </div>
+
+    <a href="/" class="auth__back"><i data-lucide="arrow-left"></i> Back to home</a>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

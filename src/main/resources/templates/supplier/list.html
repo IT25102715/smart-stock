@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Suppliers')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('suppliers')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Suppliers</h1>
+                    <p class="page-sub">Companies that supply stock to Lanka Retail Distributors.</p>
+                </div>
+                <a href="/suppliers/new" class="sbtn sbtn--primary"><i data-lucide="plus"></i> New supplier</a>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">All suppliers</h2>
+                    <span class="count" th:text="${#lists.size(suppliers)} + ' records'">0 records</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="dtable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Contact person</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th class="t-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="supplier : ${suppliers}">
+                            <td class="t-id" th:text="${supplier.id}">1</td>
+                            <td class="t-strong" th:text="${supplier.name}">Name</td>
+                            <td th:text="${supplier.contactPerson != null and !supplier.contactPerson.isEmpty()} ? ${supplier.contactPerson} : '-'">Contact</td>
+                            <td class="t-muted t-num" th:text="${supplier.phone != null and !supplier.phone.isEmpty()} ? ${supplier.phone} : '-'">Phone</td>
+                            <td class="t-muted" th:text="${supplier.email != null and !supplier.email.isEmpty()} ? ${supplier.email} : '-'">Email</td>
+                            <td class="t-muted t-truncate" th:text="${supplier.address != null and !supplier.address.isEmpty()} ? ${supplier.address} : '-'">Address</td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="sbtn sbtn--icon" th:href="@{/suppliers/edit/{id}(id=${supplier.id})}" title="Edit">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
+                                    <button type="button" class="sbtn sbtn--icon is-danger" title="Delete"
+                                            data-confirm-delete
+                                            th:data-url="@{/suppliers/delete/{id}(id=${supplier.id})}"
+                                            th:data-name="${supplier.name}">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(suppliers)}">
+                            <td colspan="7">
+                                <div class="empty">
+                                    <i data-lucide="truck"></i>
+                                    <p class="empty__title">No suppliers yet</p>
+                                    <p class="empty__text">Add a supplier before recording purchases.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirmDelete('supplier')}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

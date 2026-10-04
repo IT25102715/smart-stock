@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Dashboard')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('dashboard')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-sub">Current record counts across all SmartStock modules.</p>
+                </div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric__top"><span>Products</span><i data-lucide="package"></i></div>
+                    <div class="metric__value" th:text="${productCount}">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric__top"><span>Categories</span><i data-lucide="tags"></i></div>
+                    <div class="metric__value" th:text="${categoryCount}">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric__top"><span>Suppliers</span><i data-lucide="truck"></i></div>
+                    <div class="metric__value" th:text="${supplierCount}">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric__top"><span>Purchases</span><i data-lucide="shopping-cart"></i></div>
+                    <div class="metric__value" th:text="${purchaseCount}">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric__top"><span>Stock movements</span><i data-lucide="warehouse"></i></div>
+                    <div class="metric__value" th:text="${stockCount}">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric__top"><span>Users</span><i data-lucide="users"></i></div>
+                    <div class="metric__value" th:text="${userCount}">0</div>
+                </div>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">Quick actions</h2>
+                </div>
+                <div class="panel__body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/products/new" class="sbtn sbtn--default"><i data-lucide="plus"></i> New product</a>
+                        <a href="/purchases/new" class="sbtn sbtn--default"><i data-lucide="plus"></i> New purchase</a>
+                        <a href="/stocks/new" class="sbtn sbtn--default"><i data-lucide="plus"></i> New stock movement</a>
+                        <a href="/suppliers/new" class="sbtn sbtn--default"><i data-lucide="plus"></i> New supplier</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('About')}"></head>
+<body>
+
+<header class="lp-nav">
+    <div class="lp-nav__inner">
+        <a href="/" class="lp-brand">
+            <span class="sidebar__mark"><i data-lucide="layers"></i></span>
+            SmartStock
+        </a>
+        <nav class="lp-nav__links">
+            <a href="/" class="lp-navlink">Home</a>
+            <a href="/about" class="lp-navlink is-active">About</a>
+        </nav>
+        <a href="/dashboard" class="sbtn sbtn--primary">Enter portal</a>
+    </div>
+</header>
+
+<section class="lp-subhero">
+    <div class="lp-subhero__inner">
+        <span class="lp-eyebrow">SE2030 · Software Engineering</span>
+        <h1 class="lp-title">About this project</h1>
+        <p class="lp-lead">
+            SmartStock is a stock management system built for Lanka Retail Distributors
+            as a group assignment at the Sri Lanka Institute of Information Technology.
+        </p>
+    </div>
+</section>
+
+<section class="lp-section">
+    <h2 class="lp-section__title">Team</h2>
+    <p class="lp-section__sub">Six members, one module each.</p>
+
+    <div class="roster">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Student ID</th>
+                    <th>Module owned</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="roster__name">Dhananjaya R.A.H</td>
+                    <td class="roster__id">IT25101867</td>
+                    <td><span class="tag">Product Management</span></td>
+                </tr>
+                <tr>
+                    <td class="roster__name">Kulathunga K.A.B.N</td>
+                    <td class="roster__id">IT25102715</td>
+                    <td><span class="tag">Supplier Management</span></td>
+                </tr>
+                <tr>
+                    <td class="roster__name">Wijekoon A.G.S.K</td>
+                    <td class="roster__id">IT25103712</td>
+                    <td><span class="tag">Category Management</span></td>
+                </tr>
+                <tr>
+                    <td class="roster__name">Trisha S</td>
+                    <td class="roster__id">IT25101808</td>
+                    <td><span class="tag">Purchase Management</span></td>
+                </tr>
+                <tr>
+                    <td class="roster__name">Shavindi U.G.I </td>
+                    <td class="roster__id">IT25103680</td>
+                    <td><span class="tag">User &amp; Feedback Management</span></td>
+                </tr>
+                <tr>
+                    <td class="roster__name">Weerakoon T.K</td>
+                    <td class="roster__id">IT25100880</td>
+                    <td><span class="tag">Stock Management</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer class="lp-foot">
+    <div class="lp-foot__inner">
+        <span>&copy; Web-based Stock Management System</span>
+        <span>SE2030-Software Engineering</span>
+    </div>
+</footer>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

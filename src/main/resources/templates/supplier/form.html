@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Supplier')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('suppliers')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/suppliers" class="back-link"><i data-lucide="arrow-left"></i> Suppliers</a>
+                    <h1 class="page-title" th:text="${supplier.id} == null ? 'New supplier' : 'Edit supplier'">Supplier</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/suppliers/save}" th:object="${supplier}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <section class="panel">
+                    <div class="panel__body">
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Company</h2>
+                            <p class="form-section__desc">The supplying business and its main contact.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="s-name">Name</label>
+                                    <input id="s-name" type="text" class="input" th:field="*{name}" placeholder="e.g. Ceylon Trading Co." required>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="s-contact">Contact person</label>
+                                    <input id="s-contact" type="text" class="input" th:field="*{contactPerson}" placeholder="e.g. Nimal Perera">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Contact details</h2>
+                            <p class="form-section__desc">How the procurement team reaches this supplier.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="s-phone">Phone</label>
+                                    <input id="s-phone" type="text" class="input" th:field="*{phone}" placeholder="e.g. 011 234 5678">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="s-email">Email</label>
+                                    <input id="s-email" type="email" class="input" th:field="*{email}" placeholder="e.g. orders@supplier.lk">
+                                </div>
+                                <div class="field span-2">
+                                    <label class="field__label" for="s-address">Address</label>
+                                    <textarea id="s-address" class="textarea" th:field="*{address}" placeholder="Street, city"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/suppliers" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save supplier</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

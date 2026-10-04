@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Stock management for retail distribution')}"></head>
+<body>
+
+<header class="lp-nav">
+    <div class="lp-nav__inner">
+        <a href="/" class="lp-brand">
+            <span class="sidebar__mark"><i data-lucide="layers"></i></span>
+            SmartStock
+        </a>
+        <nav class="lp-nav__links">
+            <a href="/" class="lp-navlink is-active">Home</a>
+            <a href="/about" class="lp-navlink">About</a>
+        </nav>
+        <a href="/dashboard" class="sbtn sbtn--primary">Enter portal</a>
+    </div>
+</header>
+
+<section class="lp-hero">
+    <h1 class="lp-title">Stock management that stays accurate.</h1>
+    <p class="lp-lead">
+        SmartStock keeps products, suppliers, purchases and stock movements in one
+        auditable system - so your inventory numbers match reality.
+    </p>
+    <a href="/dashboard" class="sbtn sbtn--primary">
+        Go to dashboard <i data-lucide="arrow-right"></i>
+    </a>
+    <p class="lp-hero__meta">SE2030 - Software Engineering</p>
+</section>
+
+<section class="lp-section">
+    <h2 class="lp-section__title">Six modules, seven entities</h2>
+    <p class="lp-section__sub">Everything an inventory team touches day to day.</p>
+
+    <div class="lp-grid">
+        <div class="lp-cell">
+            <i data-lucide="package"></i>
+            <h3>Product management</h3>
+            <p>A single source of truth for every product, price and quantity on hand.</p>
+        </div>
+        <div class="lp-cell">
+            <i data-lucide="truck"></i>
+            <h3>Supplier management</h3>
+            <p>Supplier contacts and terms kept current so procurement never stalls.</p>
+        </div>
+        <div class="lp-cell">
+            <i data-lucide="tags"></i>
+            <h3>Category management</h3>
+            <p>Organise the catalog into clear categories for faster reporting.</p>
+        </div>
+        <div class="lp-cell">
+            <i data-lucide="shopping-cart"></i>
+            <h3>Purchase management</h3>
+            <p>Record purchase orders against suppliers and keep costs accountable.</p>
+        </div>
+        <div class="lp-cell">
+            <i data-lucide="warehouse"></i>
+            <h3>Stock management</h3>
+            <p>Log stock-in and stock-out transactions with a complete audit trail.</p>
+        </div>
+        <div class="lp-cell">
+            <i data-lucide="users"></i>
+            <h3>User management</h3>
+            <p>Control who can access the portal and what role each person holds.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="lp-foot">
+    <div class="lp-foot__inner">
+        <span>&copy; 2026 SmartStock - Lanka Retail Distributors</span>
+        <a href="/about" class="lp-navlink">About the team</a>
+    </div>
+</footer>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
