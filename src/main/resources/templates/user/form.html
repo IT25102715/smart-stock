@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('User')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('users')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/users" class="back-link"><i data-lucide="arrow-left"></i> Users</a>
+                    <h1 class="page-title" th:text="${user.id} == null ? 'New user' : 'Edit user'">User</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/users/save}" th:object="${user}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <section class="panel">
+                    <div class="panel__body">
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Profile</h2>
+                            <p class="form-section__desc">Who this account belongs to.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="u-fullname">Full name</label>
+                                    <input id="u-fullname" type="text" class="input" th:field="*{fullName}" placeholder="e.g. Amara Silva">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="u-email">Email</label>
+                                    <input id="u-email" type="email" class="input" th:field="*{email}" placeholder="e.g. amara@lankaretail.lk">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Access</h2>
+                            <p class="form-section__desc">Sign-in credentials and permission level.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="u-username">Username</label>
+                                    <input id="u-username" type="text" class="input" th:field="*{username}" placeholder="e.g. asilva" required>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="u-password">Password</label>
+                                    <input id="u-password" type="password" class="input" th:field="*{password}" placeholder="••••••••">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="u-role">Role</label>
+                                    <select id="u-role" class="select" th:field="*{role}">
+                                        <option value="ADMIN">Admin</option>
+                                        <option value="MANAGER">Manager</option>
+                                        <option value="STAFF">Staff</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/users" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save user</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
