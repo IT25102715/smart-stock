@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Products')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('products')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Products</h1>
+                    <p class="page-sub">Every item in the catalog, with its category and supplier.</p>
+                </div>
+                <a href="/products/new" class="sbtn sbtn--primary"><i data-lucide="plus"></i> New product</a>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">All products</h2>
+                    <span class="count" th:text="${#lists.size(products)} + ' records'">0 records</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="dtable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>SKU</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
+                            <th class="t-right">Price</th>
+                            <th class="t-right">Qty</th>
+                            <th class="t-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="product : ${products}">
+                            <td class="t-id" th:text="${product.id}">1</td>
+                            <td class="t-strong" th:text="${product.name}">Name</td>
+                            <td class="t-muted" th:text="${product.sku != null and !product.sku.isEmpty()} ? ${product.sku} : '-'">SKU</td>
+                            <td>
+                                <span class="tag" th:if="${product.category != null}" th:text="${product.category.name}">Category</span>
+                                <span class="t-muted" th:if="${product.category == null}">-</span>
+                            </td>
+                            <td class="t-muted" th:text="${product.supplier != null} ? ${product.supplier.name} : '-'">Supplier</td>
+                            <td class="t-right t-num" th:text="${#numbers.formatDecimal(product.price, 1, 2)}">0.00</td>
+                            <td class="t-right t-num" th:text="${product.quantity}">0</td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="sbtn sbtn--icon" th:href="@{/products/edit/{id}(id=${product.id})}" title="Edit">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
+                                    <button type="button" class="sbtn sbtn--icon is-danger" title="Delete"
+                                            data-confirm-delete
+                                            th:data-url="@{/products/delete/{id}(id=${product.id})}"
+                                            th:data-name="${product.name}">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(products)}">
+                            <td colspan="8">
+                                <div class="empty">
+                                    <i data-lucide="package"></i>
+                                    <p class="empty__title">No products yet</p>
+                                    <p class="empty__text">Create your first product to start tracking stock.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirmDelete('product')}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
