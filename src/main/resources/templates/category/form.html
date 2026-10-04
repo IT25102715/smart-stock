@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Category')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('categories')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/categories" class="back-link"><i data-lucide="arrow-left"></i> Categories</a>
+                    <h1 class="page-title" th:text="${category.id} == null ? 'New category' : 'Edit category'">Category</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/categories/save}" th:object="${category}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <section class="panel">
+                    <div class="panel__body">
+                        <div class="form-section">
+                            <h2 class="form-section__title">Category details</h2>
+                            <p class="form-section__desc">Used to group products in the catalog.</p>
+
+                            <div class="form-grid">
+                                <div class="field span-2">
+                                    <label class="field__label" for="c-name">Name</label>
+                                    <input id="c-name" type="text" class="input" th:field="*{name}" placeholder="e.g. Household care" required>
+                                </div>
+                                <div class="field span-2">
+                                    <label class="field__label" for="c-desc">Description</label>
+                                    <textarea id="c-desc" class="textarea" th:field="*{description}" placeholder="Optional description of this category"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/categories" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save category</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

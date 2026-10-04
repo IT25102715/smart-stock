@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Categories')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('categories')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Categories</h1>
+                    <p class="page-sub">Groupings used to organise the product catalog.</p>
+                </div>
+                <a href="/categories/new" class="sbtn sbtn--primary"><i data-lucide="plus"></i> New category</a>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">All categories</h2>
+                    <span class="count" th:text="${#lists.size(categories)} + ' records'">0 records</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="dtable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th class="t-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="category : ${categories}">
+                            <td class="t-id" th:text="${category.id}">1</td>
+                            <td class="t-strong" th:text="${category.name}">Name</td>
+                            <td class="t-muted t-truncate"
+                                th:text="${category.description != null and !category.description.isEmpty()} ? ${category.description} : '-'">Description</td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="sbtn sbtn--icon" th:href="@{/categories/edit/{id}(id=${category.id})}" title="Edit">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
+                                    <button type="button" class="sbtn sbtn--icon is-danger" title="Delete"
+                                            data-confirm-delete
+                                            th:data-url="@{/categories/delete/{id}(id=${category.id})}"
+                                            th:data-name="${category.name}">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(categories)}">
+                            <td colspan="4">
+                                <div class="empty">
+                                    <i data-lucide="tags"></i>
+                                    <p class="empty__title">No categories yet</p>
+                                    <p class="empty__text">Add a category to group your products.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirmDelete('category')}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
