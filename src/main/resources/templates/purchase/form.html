@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Purchase')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('purchases')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/purchases" class="back-link"><i data-lucide="arrow-left"></i> Purchases</a>
+                    <h1 class="page-title" th:text="${purchase.id} == null ? 'New purchase' : 'Edit purchase'">Purchase</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/purchases/save}" th:object="${purchase}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <section class="panel">
+                    <div class="panel__body">
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Order</h2>
+                            <p class="form-section__desc">What was bought and who it was bought from.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="pu-product">Product</label>
+                                    <select id="pu-product" class="select" th:field="*{product}">
+                                        <option value="">Select a product</option>
+                                        <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="pu-supplier">Supplier</label>
+                                    <select id="pu-supplier" class="select" th:field="*{supplier}">
+                                        <option value="">Select a supplier</option>
+                                        <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Amounts</h2>
+                            <p class="form-section__desc">Total is calculated as quantity × unit price.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="pu-qty">Quantity</label>
+                                    <input id="pu-qty" type="number" min="1" class="input" th:field="*{quantity}">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="pu-price">Unit price</label>
+                                    <input id="pu-price" type="number" step="0.01" min="0" class="input" th:field="*{unitPrice}">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="pu-date">Purchase date</label>
+                                    <input id="pu-date" type="date" class="input" th:field="*{purchaseDate}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/purchases" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save purchase</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
