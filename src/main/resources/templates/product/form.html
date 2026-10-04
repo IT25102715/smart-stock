@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Product')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('products')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/products" class="back-link"><i data-lucide="arrow-left"></i> Products</a>
+                    <h1 class="page-title" th:text="${product.id} == null ? 'New product' : 'Edit product'">Product</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/products/save}" th:object="${product}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <section class="panel">
+                    <div class="panel__body">
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Product details</h2>
+                            <p class="form-section__desc">How this item is identified in the catalog.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="p-name">Name</label>
+                                    <input id="p-name" type="text" class="input" th:field="*{name}" placeholder="e.g. Sunlight Soap 100g" required>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="p-sku">SKU</label>
+                                    <input id="p-sku" type="text" class="input" th:field="*{sku}" placeholder="e.g. SL-100">
+                                </div>
+                                <div class="field span-2">
+                                    <label class="field__label" for="p-desc">Description</label>
+                                    <textarea id="p-desc" class="textarea" th:field="*{description}" placeholder="Optional notes about this product"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Pricing &amp; stock</h2>
+                            <p class="form-section__desc">Selling price and quantity currently on hand.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="p-price">Price</label>
+                                    <input id="p-price" type="number" step="0.01" min="0" class="input" th:field="*{price}">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="p-qty">Quantity</label>
+                                    <input id="p-qty" type="number" min="0" class="input" th:field="*{quantity}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Classification</h2>
+                            <p class="form-section__desc">Where this product sits and who supplies it.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="p-cat">Category</label>
+                                    <select id="p-cat" class="select" th:field="*{category}">
+                                        <option value="">Select a category</option>
+                                        <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="p-sup">Supplier</label>
+                                    <select id="p-sup" class="select" th:field="*{supplier}">
+                                        <option value="">Select a supplier</option>
+                                        <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/products" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save product</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
