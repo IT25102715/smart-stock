@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Purchases')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('purchases')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Purchases</h1>
+                    <p class="page-sub">Purchase orders raised against suppliers.</p>
+                </div>
+                <a href="/purchases/new" class="sbtn sbtn--primary"><i data-lucide="plus"></i> New purchase</a>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">All purchases</h2>
+                    <span class="count" th:text="${#lists.size(purchases)} + ' records'">0 records</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="dtable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Supplier</th>
+                            <th>Date</th>
+                            <th class="t-right">Qty</th>
+                            <th class="t-right">Unit price</th>
+                            <th class="t-right">Total</th>
+                            <th class="t-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="purchase : ${purchases}">
+                            <td class="t-id" th:text="${purchase.id}">1</td>
+                            <td class="t-strong" th:text="${purchase.product != null} ? ${purchase.product.name} : '-'">Product</td>
+                            <td class="t-muted" th:text="${purchase.supplier != null} ? ${purchase.supplier.name} : '-'">Supplier</td>
+                            <td class="t-muted t-num" th:text="${purchase.purchaseDate != null} ? ${purchase.purchaseDate} : '-'">2026-01-01</td>
+                            <td class="t-right t-num" th:text="${purchase.quantity}">0</td>
+                            <td class="t-right t-num" th:text="${#numbers.formatDecimal(purchase.unitPrice, 1, 2)}">0.00</td>
+                            <td class="t-right t-num t-strong" th:text="${#numbers.formatDecimal(purchase.totalAmount, 1, 2)}">0.00</td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="sbtn sbtn--icon" th:href="@{/purchases/edit/{id}(id=${purchase.id})}" title="Edit">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
+                                    <button type="button" class="sbtn sbtn--icon is-danger" title="Delete"
+                                            data-confirm-delete
+                                            th:data-url="@{/purchases/delete/{id}(id=${purchase.id})}"
+                                            th:data-name="${purchase.product != null} ? 'Purchase of ' + ${purchase.product.name} : 'Purchase #' + ${purchase.id}">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(purchases)}">
+                            <td colspan="8">
+                                <div class="empty">
+                                    <i data-lucide="shopping-cart"></i>
+                                    <p class="empty__title">No purchases yet</p>
+                                    <p class="empty__text">Record a purchase order to track incoming stock.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirmDelete('purchase')}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
