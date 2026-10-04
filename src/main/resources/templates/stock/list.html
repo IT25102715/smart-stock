@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Stock movements')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('stocks')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Stock movements</h1>
+                    <p class="page-sub">Every stock-in and stock-out transaction, in order.</p>
+                </div>
+                <a href="/stocks/new" class="sbtn sbtn--primary"><i data-lucide="plus"></i> New movement</a>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">All movements</h2>
+                    <span class="count" th:text="${#lists.size(stocks)} + ' records'">0 records</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="dtable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Remarks</th>
+                            <th class="t-right">Qty</th>
+                            <th class="t-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="stock : ${stocks}">
+                            <td class="t-id" th:text="${stock.id}">1</td>
+                            <td class="t-strong" th:text="${stock.product != null} ? ${stock.product.name} : '-'">Product</td>
+                            <td>
+                                <span class="tag tag--green" th:if="${stock.type == 'IN'}">
+                                    <i data-lucide="arrow-down-left"></i> Stock in
+                                </span>
+                                <span class="tag tag--red" th:if="${stock.type == 'OUT'}">
+                                    <i data-lucide="arrow-up-right"></i> Stock out
+                                </span>
+                            </td>
+                            <td class="t-muted t-num" th:text="${stock.transactionDate != null} ? ${stock.transactionDate} : '-'">2026-01-01</td>
+                            <td class="t-muted t-truncate" th:text="${stock.remarks != null and !stock.remarks.isEmpty()} ? ${stock.remarks} : '-'">Remarks</td>
+                            <td class="t-right t-num t-strong" th:text="${stock.quantity}">0</td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="sbtn sbtn--icon" th:href="@{/stocks/edit/{id}(id=${stock.id})}" title="Edit">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
+                                    <button type="button" class="sbtn sbtn--icon is-danger" title="Delete"
+                                            data-confirm-delete
+                                            th:data-url="@{/stocks/delete/{id}(id=${stock.id})}"
+                                            th:data-name="${stock.product != null} ? ${stock.type} + ' movement for ' + ${stock.product.name} : 'Movement #' + ${stock.id}">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(stocks)}">
+                            <td colspan="7">
+                                <div class="empty">
+                                    <i data-lucide="warehouse"></i>
+                                    <p class="empty__title">No stock movements yet</p>
+                                    <p class="empty__text">Record a stock-in or stock-out transaction.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirmDelete('stock movement')}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

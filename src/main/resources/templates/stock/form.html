@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Stock movement')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('stocks')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/stocks" class="back-link"><i data-lucide="arrow-left"></i> Stock movements</a>
+                    <h1 class="page-title" th:text="${stock.id} == null ? 'New stock movement' : 'Edit stock movement'">Stock movement</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/stocks/save}" th:object="${stock}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <section class="panel">
+                    <div class="panel__body">
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Movement</h2>
+                            <p class="form-section__desc">Whether stock came in or went out, and for which product.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="st-product">Product</label>
+                                    <select id="st-product" class="select" th:field="*{product}">
+                                        <option value="">Select a product</option>
+                                        <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="st-type">Type</label>
+                                    <select id="st-type" class="select" th:field="*{type}">
+                                        <option value="IN">Stock in</option>
+                                        <option value="OUT">Stock out</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="st-qty">Quantity</label>
+                                    <input id="st-qty" type="number" min="1" class="input" th:field="*{quantity}">
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="st-date">Transaction date</label>
+                                    <input id="st-date" type="date" class="input" th:field="*{transactionDate}">
+                                </div>
+                                <div class="field span-2">
+                                    <label class="field__label" for="st-remarks">Remarks</label>
+                                    <textarea id="st-remarks" class="textarea" th:field="*{remarks}" placeholder="Reason for this movement, reference number, etc."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/stocks" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save movement</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
