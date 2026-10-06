@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Feedback')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('feedbacks')}"></aside>
+
+    <main class="main">
+        <div class="main__inner form-wrap">
+
+            <div class="page-head">
+                <div>
+                    <a href="/feedbacks" class="back-link"><i data-lucide="arrow-left"></i> Feedback</a>
+                    <h1 class="page-title" th:text="${feedback.id} == null ? 'New feedback' : 'Edit feedback'">Feedback</h1>
+                </div>
+            </div>
+
+            <form th:action="@{/feedbacks/save}" th:object="${feedback}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="alert" th:if="${error}" th:text="${error}"></div>
+
+                <section class="panel">
+                    <div class="panel__body">
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Customer</h2>
+                            <p class="form-section__desc">Who submitted this feedback.</p>
+
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label class="field__label" for="f-name">Customer name</label>
+                                    <input id="f-name" type="text" class="input" th:field="*{customerName}" placeholder="e.g. Ruwan Fernando" required>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="f-email">Email</label>
+                                    <input id="f-email" type="email" class="input" th:field="*{email}" placeholder="e.g. ruwan@example.com">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h2 class="form-section__title">Feedback</h2>
+                            <p class="form-section__desc">What they said, and how they rated the service.</p>
+
+                            <div class="form-grid">
+                                <div class="field span-2">
+                                    <label class="field__label" for="f-message">Message</label>
+                                    <textarea id="f-message" class="textarea" th:field="*{message}" placeholder="Their comments"></textarea>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="f-rating">Rating</label>
+                                    <select id="f-rating" class="select" th:field="*{rating}">
+                                        <option value="5">5 - Excellent</option>
+                                        <option value="4">4 - Good</option>
+                                        <option value="3">3 - Average</option>
+                                        <option value="2">2 - Poor</option>
+                                        <option value="1">1 - Very poor</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label" for="f-date">Feedback date</label>
+                                    <input id="f-date" type="date" class="input" th:field="*{feedbackDate}" th:max="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel__foot">
+                        <a href="/feedbacks" class="sbtn sbtn--default">Cancel</a>
+                        <button type="submit" class="sbtn sbtn--primary">Save feedback</button>
+                    </div>
+                </section>
+            </form>
+
+        </div>
+    </main>
+</div>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

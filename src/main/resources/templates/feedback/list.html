@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: pageHead('Feedback')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('feedbacks')}"></aside>
+
+    <main class="main">
+        <div class="main__inner">
+
+            <div class="page-head">
+                <div>
+                    <h1 class="page-title">Feedback</h1>
+                    <p class="page-sub">Comments and ratings submitted by customers.</p>
+                </div>
+                <a href="/feedbacks/new" class="sbtn sbtn--primary"><i data-lucide="plus"></i> New feedback</a>
+            </div>
+
+            <section class="panel">
+                <div class="panel__head">
+                    <h2 class="panel__title">All feedback</h2>
+                    <form class="search" th:action="@{/feedbacks}" method="get">
+                        <input type="text" name="keyword" class="input" th:value="${keyword}" placeholder="Search feedback">
+                        <button type="submit" class="sbtn sbtn--default"><i data-lucide="search"></i> Search</button>
+                        <a th:if="${keyword != null and !keyword.isEmpty()}" th:href="@{/feedbacks}" class="sbtn sbtn--default">Clear</a>
+                    </form>
+                    <span class="count" th:text="${#lists.size(feedbacks)} + ' records'">0 records</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="dtable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Rating</th>
+                            <th class="t-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="feedback : ${feedbacks}">
+                            <td class="t-id" th:text="${feedback.id}">1</td>
+                            <td class="t-strong" th:text="${feedback.customerName}">Customer</td>
+                            <td class="t-muted" th:text="${feedback.email != null and !feedback.email.isEmpty()} ? ${feedback.email} : '-'">Email</td>
+                            <td class="t-muted t-truncate" th:text="${feedback.message != null and !feedback.message.isEmpty()} ? ${feedback.message} : '-'">Message</td>
+                            <td class="t-muted t-num" th:text="${feedback.feedbackDate != null} ? ${feedback.feedbackDate} : '-'">2026-01-01</td>
+                            <td>
+                                <span class="tag tag--green" th:if="${feedback.rating >= 4}" th:text="${feedback.rating} + ' / 5'">5 / 5</span>
+                                <span class="tag tag--amber" th:if="${feedback.rating == 3}" th:text="${feedback.rating} + ' / 5'">3 / 5</span>
+                                <span class="tag tag--red" th:if="${feedback.rating > 0 and feedback.rating &lt; 3}" th:text="${feedback.rating} + ' / 5'">1 / 5</span>
+                                <span class="t-muted" th:if="${feedback.rating == 0}">-</span>
+                            </td>
+                            <td>
+                                <div class="row-actions">
+                                    <a class="sbtn sbtn--icon" th:href="@{/feedbacks/edit/{id}(id=${feedback.id})}" title="Edit">
+                                        <i data-lucide="pencil"></i>
+                                    </a>
+                                    <button type="button" class="sbtn sbtn--icon is-danger" title="Delete"
+                                            data-confirm-delete
+                                            th:data-url="@{/feedbacks/delete/{id}(id=${feedback.id})}"
+                                            th:data-name="'Feedback from ' + ${feedback.customerName}">
+                                        <i data-lucide="trash-2"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(feedbacks)}">
+                            <td colspan="7">
+                                <div class="empty">
+                                    <i data-lucide="message-square"></i>
+                                    <p class="empty__title">No feedback yet</p>
+                                    <p class="empty__text">Customer feedback will appear here once recorded.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/layout :: confirmDelete('feedback entry')}"></div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
